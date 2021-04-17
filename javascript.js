@@ -1,18 +1,21 @@
+// Timing
 const typingAnimationDuration = 2000;
 const scrollDelay = 2000;
 const scrollDuration = 750;
 
 $(document).ready(() => {
+  /* Hamburger Button */
   $(".hamburger-btn, .nav a").on('click', () => {
     $(".hamburger-btn, .nav").toggleClass('active').toggleClass('inactive');
   })
   
+  /* Typing Text */
 	const typeText = (target, text, step, duration) => {
   	if(step > text.length) {
     	return;
     }
     
-  	$(target).text(text.substr(text, step));
+  	$(target).text(text.substr(0, step));
     
     setTimeout(() => {
     	typeText(target, text, step + 1, duration);
@@ -21,19 +24,18 @@ $(document).ready(() => {
 
 	$("[typingText]").each(function() {
   	const text = $(this).attr('typingText');
-    
-    if(!text) {
-      return;
-    }
-    
-    const steps = text.length;
+
     typeText(this, text, 1, typingAnimationDuration);
   });
 
-  $('html, body').delay(typingAnimationDuration + scrollDelay).animate({
-    scrollTop: $("#about").offset().top - 40
-  }, scrollDuration);
+  if($("#about").length != 0) {
+    /* Auto Scroll */
+    $('html, body').delay(typingAnimationDuration + scrollDelay).animate({
+      scrollTop: $("#about").offset().top - 40
+    }, scrollDuration);
+  }
 
+  /* Fade On Scroll */
   const fadeInOnScroll = (target) => {
     $(window).on('scroll', () => {
       checkFadeInOnScroll(target);
@@ -60,6 +62,7 @@ $(document).ready(() => {
     fadeInOnScroll(this);
   });
 
+  /* Slide On Scroll */
   const slideInOnScroll = (target) => {
     $(window).on('scroll', () => {
       checkSlideInOnScroll(target);
